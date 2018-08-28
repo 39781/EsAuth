@@ -1,0 +1,58 @@
+<html>
+<head>
+<style>
+div.card {
+  
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+}
+
+div.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 40px;
+}
+
+div.container {
+    padding: 10px;
+}
+</style>
+</head>
+<center>
+<div class="card">
+  <div class="header" id="header">
+    
+  </div>
+
+  <div class="container" id="container">
+    
+  </div>
+</div>
+</center>
+<script>
+console.log(window.location.href);
+url = window.location.href.split('=')[1];
+console.log(url);
+	window.open(decodeURIComponent(url),"login","","");
+
+var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+  var eventer = window[eventMethod];
+  var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+  // Listen to message from child window
+  eventer(messageEvent,function(e) {
+    console.log('origin: ', e.origin)
+	  
+    // Check if origin is proper
+    if( e.origin != 'https://df8qy9srl5.execute-api.us-east-1.amazonaws.com' ){ return }
+	
+    console.log('parent received message!: ', e.data);
+	document.getElementById('header').innerHTML = "<h1>"+e.data.msg+"</h1>";
+	document.getElementById('container').innerHTML = "<p>window will close in 5 secs</p>";
+	setTimeout(function(){
+		window.close();
+	},5000);
+  }, false);
+
+</script>
+</html>
